@@ -17,9 +17,10 @@ public enum SingletonState {
         this.resourceFunction = resourceFunction;
     }
 
-    @SuppressWarnings("unchecked")
     public <T> T getResource(InitializingSingleton<T> singleton, Object... args) {
-        return (T) resourceFunction.apply(singleton, args);
+        @SuppressWarnings("unchecked")
+        T resource = (T) resourceFunction.apply(singleton, args);
+        return resource;
     }
 
     public interface InitializingSingleton<T> {
@@ -29,17 +30,19 @@ public enum SingletonState {
         static final Map<InitializingSingleton<?>, Object> initCompletedCache = new ConcurrentHashMap<>();
         static final Map<InitializingSingleton<?>, Object> resourceCache = new HashMap<>();
 
-        @SuppressWarnings("unchecked")
         default T get(Object... args) {
-            return (T) resourceCache.computeIfAbsent(this, this::resource);
+            @SuppressWarnings("unchecked")
+            T resource = (T) resourceCache.computeIfAbsent(this, this::resource);
+            return resource;
         }
 
-        @SuppressWarnings("unchecked")
         default T resource(InitializingSingleton<?> singleton) {
             try {
                 Field resourceField = this.getClass().getDeclaredField(RESOURCE);
                 resourceField.setAccessible(true);
-                return (T) resourceField.get(this);
+                @SuppressWarnings("unchecked")
+                T resource = (T) resourceField.get(this);
+                return resource;
             } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException
                     | SecurityException e) {
                 throw new IllegalStateException("could not get 'resource' with defaul method", e);
@@ -64,9 +67,10 @@ public enum SingletonState {
 
         void createResource(Object... args);
 
-        @SuppressWarnings("unchecked")
-        static <O> O create(InitializingSingleton<O> singleton, Object... args) {
-            return (O) initCompletedCache.computeIfAbsent(singleton, s -> s.init(args));
+        static <T> T create(InitializingSingleton<T> singleton, Object... args) {
+            @SuppressWarnings("unchecked")
+            T resource = (T) initCompletedCache.computeIfAbsent(singleton, s -> s.init(args));
+            return resource;
         }
 
     }
