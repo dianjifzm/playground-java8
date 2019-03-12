@@ -11,16 +11,15 @@ public enum SingletonState {
     NOT_INITIALIZED(InitializingSingleton::create), 
     INITIALIZED(InitializingSingleton::get);
     
-    private BiFunction<InitializingSingleton<?>, Object[], ?> resourceFunction;
+    private final BiFunction<InitializingSingleton<?>, Object[], ?> resourceFunction;
 
-    private SingletonState(BiFunction<InitializingSingleton<?>, Object[], ?> resourceFunction) {
+    private SingletonState(final BiFunction<InitializingSingleton<?>, Object[], ?> resourceFunction) {
         this.resourceFunction = resourceFunction;
     }
 
-    public <T> T getResource(InitializingSingleton<T> singleton, Object... args) {
-        @SuppressWarnings("unchecked")
-        T resource = (T) resourceFunction.apply(singleton, args);
-        return resource;
+    @SuppressWarnings("unchecked")
+    public <T> T getResource(final InitializingSingleton<T> singleton, final Object... args) {
+        return (T) resourceFunction.apply(singleton, args);
     }
 
     public interface InitializingSingleton<T> {

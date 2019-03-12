@@ -23,7 +23,6 @@ public class ProxyGenerator implements InitializingSingleton<Enhancer> {
 
     public final static ProxyGenerator INSTANCE = new ProxyGenerator();
     private SingletonState state = SingletonState.NOT_INITIALIZED;
-    @SuppressWarnings("unused")
     private Enhancer resource;
 
     private ProxyGenerator() {

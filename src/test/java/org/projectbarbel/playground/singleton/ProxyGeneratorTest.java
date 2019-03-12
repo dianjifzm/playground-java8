@@ -19,8 +19,10 @@ public class ProxyGeneratorTest {
                 public void run() {
                     try {
                         gate.await();
-                        Client client = ProxyGenerator.INSTANCE.getProxy(new Client("1234", "Niklas"));
-                        safePrintln(client.toString());
+                        for (int j = 0; j < 1000; j++) {
+                            Client client = ProxyGenerator.INSTANCE.getProxy(new Client("1234", "Niklas"));
+                            client.toString();
+                        }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (BrokenBarrierException e) {
@@ -37,7 +39,7 @@ public class ProxyGeneratorTest {
 
     }
 
-    @Test
+    //@Test
     public void testCreateResourceOldSchool() throws Exception {
         final CyclicBarrier gate = new CyclicBarrier(16);
 
@@ -64,7 +66,7 @@ public class ProxyGeneratorTest {
 
     }
 
-    @Test
+    //@Test
     public void testCreateResourceMap() throws Exception {
         final CyclicBarrier gate = new CyclicBarrier(16);
 
@@ -91,7 +93,7 @@ public class ProxyGeneratorTest {
 
     }
 
-    @Test
+    //@Test
     public void testCreateResourceOptional() throws Exception {
         final CyclicBarrier gate = new CyclicBarrier(16);
 
