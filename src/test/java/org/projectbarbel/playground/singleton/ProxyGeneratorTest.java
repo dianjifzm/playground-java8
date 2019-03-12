@@ -20,7 +20,7 @@ public class ProxyGeneratorTest {
                     try {
                         gate.await();
                         Client client = ProxyGenerator.INSTANCE.getProxy(new Client("1234", "Niklas"));
-                        System.out.println(client);
+                        safePrintln(client.toString());
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (BrokenBarrierException e) {
@@ -31,7 +31,8 @@ public class ProxyGeneratorTest {
         }
 
         gate.await();
-        System.out.println("all threads started");
+        safePrintln("all threads started - state");
+        safePrintln("waiting");
         Thread.sleep(5000);
 
     }
@@ -39,14 +40,14 @@ public class ProxyGeneratorTest {
     @Test
     public void testCreateResourceOldSchool() throws Exception {
         final CyclicBarrier gate = new CyclicBarrier(16);
-        
+
         for (int i = 0; i < 15; i++) {
             new Thread() {
                 public void run() {
                     try {
                         gate.await();
                         Client client = ProxyGeneratorSynchronized.INSTANCE.getProxy(new Client("1234", "Niklas"));
-                        System.out.println(client);
+                        safePrintln(client.toString());
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (BrokenBarrierException e) {
@@ -55,20 +56,65 @@ public class ProxyGeneratorTest {
                 }
             }.start();
         }
-        
-        gate.await();
-        System.out.println("all threads started");
-        Thread.sleep(5000);
-        
-    }
-    
-    public static class ProxyMaker implements Runnable {
 
-        @Override
-        public void run() {
-            Client client = ProxyGenerator.INSTANCE.getProxy(new Client("1234", "Niklas"));
-            System.out.println(client);
+        gate.await();
+        safePrintln("all threads started - synchronized");
+        safePrintln("waiting");
+        Thread.sleep(5000);
+
+    }
+
+    @Test
+    public void testCreateResourceMap() throws Exception {
+        final CyclicBarrier gate = new CyclicBarrier(16);
+
+        for (int i = 0; i < 15; i++) {
+            new Thread() {
+                public void run() {
+                    try {
+                        gate.await();
+                        Client client = ProxyGeneratorMap.INSTANCE.getProxy(new Client("1234", "Niklas"));
+                        safePrintln(client.toString());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (BrokenBarrierException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.start();
         }
+
+        gate.await();
+        safePrintln("all threads started - map");
+        safePrintln("waiting");
+        Thread.sleep(5000);
+
+    }
+
+    @Test
+    public void testCreateResourceOptional() throws Exception {
+        final CyclicBarrier gate = new CyclicBarrier(16);
+
+        for (int i = 0; i < 15; i++) {
+            new Thread() {
+                public void run() {
+                    try {
+                        gate.await();
+                        Client client = ProxyGeneratorOptional.INSTANCE.getProxy(new Client("1234", "Niklas"));
+                        safePrintln(client.toString());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (BrokenBarrierException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.start();
+        }
+
+        gate.await();
+        safePrintln("all threads started - Optional");
+        safePrintln("waiting");
+        Thread.sleep(5000);
 
     }
 
@@ -82,7 +128,13 @@ public class ProxyGeneratorTest {
             this.clientId = client.getClientId();
             this.clientName = client.getClientName();
         }
-        
+
+    }
+
+    public void safePrintln(String s) {
+        synchronized (System.out) {
+            System.out.println(s);
+        }
     }
 
 }

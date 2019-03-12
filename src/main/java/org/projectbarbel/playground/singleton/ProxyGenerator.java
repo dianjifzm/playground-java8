@@ -23,6 +23,7 @@ public class ProxyGenerator implements InitializingSingleton<Enhancer> {
 
     public final static ProxyGenerator INSTANCE = new ProxyGenerator();
     private SingletonState state = SingletonState.NOT_INITIALIZED;
+    @SuppressWarnings("unused")
     private Enhancer resource;
 
     private ProxyGenerator() {
@@ -37,7 +38,7 @@ public class ProxyGenerator implements InitializingSingleton<Enhancer> {
     @Override
     public void createResource(Object... args) {
         System.out.println("created once");
-        resource = new Enhancer();
+        Enhancer resource = new Enhancer();
         resource.setInterfaces(new Class[] {});
         resource.setSuperclass((Class<?>) args[0]);
         resource.setCallback(new MethodInterceptor() {
@@ -47,6 +48,12 @@ public class ProxyGenerator implements InitializingSingleton<Enhancer> {
                 return proxy.invokeSuper(obj, args);
             }
         });
+        this.resource = resource;
+    }
+
+    @Override
+    public Enhancer get(Object... args) {
+        return resource;
     }
 
 }

@@ -16,26 +16,12 @@ public class SingletonIdioms {
     }
     
     public static class LazyLoadingSingleton {
-        private static String runtimeData;
-        private String someProduct;
-        private LazyLoadingSingleton(String runtimeData) {
-            setSomeProduct(runtimeData);
-        }
+        private LazyLoadingSingleton() {}
         private static class LazyHolder {
-            static final LazyLoadingSingleton INSTANCE = new LazyLoadingSingleton(runtimeData);
+            static final LazyLoadingSingleton INSTANCE = new LazyLoadingSingleton();
         }
-        public static LazyLoadingSingleton getInstance() {
+        public static LazyLoadingSingleton getInstance(String runtimeData) {
             return LazyHolder.INSTANCE;
-        }
-        public void runtimMethod(String runtimeData) {
-            LazyLoadingSingleton.runtimeData=runtimeData;
-            System.out.println(LazyLoadingSingleton.getInstance().getSomeProduct());
-        }
-        public String getSomeProduct() {
-            return someProduct;
-        }
-        public void setSomeProduct(String someProduct) {
-            this.someProduct = someProduct;
         }
     }
     
