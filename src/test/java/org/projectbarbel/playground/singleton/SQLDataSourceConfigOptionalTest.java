@@ -6,7 +6,7 @@ import java.util.concurrent.CyclicBarrier;
 import org.apache.commons.configuration2.ImmutableConfiguration;
 import org.junit.jupiter.api.Test;
 
-public class SQLDataSourceConfigTest {
+public class SQLDataSourceConfigOptionalTest {
 
     @Test
     public void testCreateResource() throws Exception {
@@ -18,7 +18,7 @@ public class SQLDataSourceConfigTest {
                     try {
                         gate.await();
                         for (int j = 0; j < 1000; j++) {
-                            ImmutableConfiguration configuration = SQLDataSourceConfig.INSTANCE.configuration("database.properties");
+                            ImmutableConfiguration configuration = SQLDataSourceConfigOptional.INSTANCE.configuration("database.properties");
                             configuration.getString("test");
                         }
                     } catch (InterruptedException e) {

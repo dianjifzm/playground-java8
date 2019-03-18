@@ -7,13 +7,13 @@ import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 
-public class SQLDataSourceConfig {
+public class SQLDataSourceConfigOptional {
 
-    public static final SQLDataSourceConfig INSTANCE = new SQLDataSourceConfig();
+    public static final SQLDataSourceConfigOptional INSTANCE = new SQLDataSourceConfigOptional();
     private Configurations configs = new Configurations();
     private Configuration config;
     
-    private SQLDataSourceConfig() {
+    private SQLDataSourceConfigOptional() {
     }
     
     public Configuration configuration(String filename) {
