@@ -10,7 +10,7 @@ public class SQLDataSourceConfigSynchronized {
 
     public static final SQLDataSourceConfigSynchronized INSTANCE = new SQLDataSourceConfigSynchronized();
     private Configurations configs = new Configurations();
-    private Configuration config;
+    private volatile Configuration config;
 
     private SQLDataSourceConfigSynchronized() {
     }
