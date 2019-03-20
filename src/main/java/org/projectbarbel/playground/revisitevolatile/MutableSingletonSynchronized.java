@@ -9,14 +9,14 @@ public class MutableSingletonSynchronized {
         this.someFlag = someFlag;
     }
     public static MutableSingletonSynchronized getInstance() {
-        if (INSTANCE == null) {
-            synchronized (mutex) {
-                if (INSTANCE == null)
-                    INSTANCE = new MutableSingletonSynchronized(false);
-            }
+        MutableSingletonSynchronized singleton = INSTANCE;
+        if (singleton != null)
+            return singleton;
+        synchronized (mutex) {
+            if (INSTANCE == null)
+                INSTANCE = new MutableSingletonSynchronized(false);
+            return INSTANCE;
         }
-        return INSTANCE;
-
     }
     public synchronized boolean isSomeFlag() {
         return someFlag;
