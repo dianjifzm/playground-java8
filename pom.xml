@@ -82,5 +82,10 @@
 			<artifactId>otj-pg-embedded</artifactId>
 			<version>0.13.1</version>
 		</dependency>
+		<dependency>
+			<groupId>io.github.benas</groupId>
+			<artifactId>random-beans</artifactId>
+			<version>3.8.0</version>
+		</dependency>
 	</dependencies>
 </project>

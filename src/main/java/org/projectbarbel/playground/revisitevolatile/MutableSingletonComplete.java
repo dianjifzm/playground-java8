@@ -3,7 +3,8 @@ package org.projectbarbel.playground.revisitevolatile;
 public class MutableSingletonComplete {
     private static volatile MutableSingletonComplete INSTANCE;
     private static final Object mutex = new Object();
-    private boolean someFlag;
+    private volatile boolean someFlag;
+    private volatile int counter;
     // more mutable state on this singleton
     private MutableSingletonComplete(boolean someFlag) {
         this.someFlag = someFlag;
@@ -18,10 +19,16 @@ public class MutableSingletonComplete {
             return INSTANCE;
         }
     }
-    public synchronized boolean isSomeFlag() {
+    public boolean isSomeFlag() {
         return someFlag;
     }
-    public synchronized void setSomeFlag(boolean someFlag) {
+    public void setSomeFlag(boolean someFlag) {
         this.someFlag = someFlag;
+    }
+    public int getCounter() {
+        return counter;
+    }
+    public synchronized void incrementCounter(int counter) {
+        counter++;
     }
 }

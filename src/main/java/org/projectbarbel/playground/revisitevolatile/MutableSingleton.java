@@ -3,9 +3,9 @@ package org.projectbarbel.playground.revisitevolatile;
 public class MutableSingleton {
     private static volatile MutableSingleton INSTANCE;
     private static final Object mutex = new Object();
-    private boolean someFlag;
-
+    private volatile boolean someFlag;
     // more mutable state on this singleton
+    
     private MutableSingleton(boolean someFlag) {
         this.someFlag = someFlag;
     }
