@@ -8,6 +8,10 @@ import org.projectbarbel.playground.testutil.ConcurrentExecutor;
 
 import io.github.benas.randombeans.api.EnhancedRandom;
 
+/**
+ * Notice that the time measured are of no real value, since there was nor warm up.
+ *
+ */
 public class SafeAccessorServiceTest {
 
     public static void main(String[] args) throws InterruptedException {
