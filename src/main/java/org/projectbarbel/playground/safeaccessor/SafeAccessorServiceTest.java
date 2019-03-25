@@ -30,7 +30,7 @@ public class SafeAccessorServiceTest {
         });
         System.out.println(time);
         
-        System.out.println("\n*** randomly updating an instance - update may be relected ***\n");
+        System.out.println("\n*** randomly updating an instance - update may be rejected ***\n");
 
         time = ConcurrentExecutor.time(Executors.newFixedThreadPool(4, r -> {
             Thread t = Executors.defaultThreadFactory().newThread(r);
@@ -46,7 +46,7 @@ public class SafeAccessorServiceTest {
         });
         System.out.println(time);
         
-        System.out.println("\n*** updating an instance with some data - update may be relected ***\n");
+        System.out.println("\n*** updating an instance with some data - update may be rejected ***\n");
         
         time = ConcurrentExecutor.time(Executors.newFixedThreadPool(4, r -> {
             Thread t = Executors.defaultThreadFactory().newThread(r);
@@ -62,7 +62,7 @@ public class SafeAccessorServiceTest {
         });
         System.out.println(time);
         
-        System.out.println("\n*** updating an instance using a semaphore - update will not be relected  ***\n");
+        System.out.println("\n*** updating an instance using a semaphore - update will not be rejected  ***\n");
         
         Semaphore semaphore = new Semaphore(1);
         time = ConcurrentExecutor.time(Executors.newFixedThreadPool(4, r -> {
