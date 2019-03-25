@@ -16,7 +16,7 @@ public class SafeAccessorServiceTest {
         
         System.out.println("\n*** getting an instance ***\n");
         
-        ConcurrentExecutor.time(Executors.newFixedThreadPool(4, r -> {
+        long time = ConcurrentExecutor.time(Executors.newFixedThreadPool(4, r -> {
             Thread t = Executors.defaultThreadFactory().newThread(r);
             t.setDaemon(true);
             return t;
@@ -24,10 +24,11 @@ public class SafeAccessorServiceTest {
             accessor.get("test");
             System.out.println("done");
         });
+        System.out.println(time);
         
         System.out.println("\n*** randomly updating an instance ***\n");
 
-        ConcurrentExecutor.time(Executors.newFixedThreadPool(4, r -> {
+        time = ConcurrentExecutor.time(Executors.newFixedThreadPool(4, r -> {
             Thread t = Executors.defaultThreadFactory().newThread(r);
             t.setDaemon(true);
             return t;
@@ -39,10 +40,11 @@ public class SafeAccessorServiceTest {
                 System.out.println("object was locked, handle this and then try again later");
             }
         });
+        System.out.println(time);
         
         System.out.println("\n*** updating an instance with some data ***\n");
         
-        ConcurrentExecutor.time(Executors.newFixedThreadPool(4, r -> {
+        time = ConcurrentExecutor.time(Executors.newFixedThreadPool(4, r -> {
             Thread t = Executors.defaultThreadFactory().newThread(r);
             t.setDaemon(true);
             return t;
@@ -54,11 +56,12 @@ public class SafeAccessorServiceTest {
                 System.out.println("object was locked, handle this and then try again later");
             }
         });
+        System.out.println(time);
         
         System.out.println("\n*** updating an instance using a semaphore ***\n");
         
         Semaphore semaphore = new Semaphore(1);
-        ConcurrentExecutor.time(Executors.newFixedThreadPool(4, r -> {
+        time = ConcurrentExecutor.time(Executors.newFixedThreadPool(4, r -> {
             Thread t = Executors.defaultThreadFactory().newThread(r);
             t.setDaemon(true);
             return t;
@@ -72,5 +75,6 @@ public class SafeAccessorServiceTest {
             semaphore.release();
             System.out.println("done with semaphore");
         });
+        System.out.println(time);
     }
 }
