@@ -3,7 +3,7 @@ package org.projectbarbel.playground.safeaccessor;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
- * Thread-safe shared object instance.
+ * Safely visible shared object instance.
  */
 public final class SharedObject {
 
