@@ -1,4 +1,4 @@
-package org.projectbarbel.playground.pseudolocking;
+package org.projectbarbel.playground.safeaccessor;
 
 import java.util.ConcurrentModificationException;
 import java.util.concurrent.Executors;
