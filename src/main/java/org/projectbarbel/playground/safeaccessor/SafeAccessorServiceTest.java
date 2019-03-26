@@ -9,17 +9,18 @@ import org.projectbarbel.playground.testutil.ConcurrentExecutor;
 import io.github.benas.randombeans.api.EnhancedRandom;
 
 /**
- * Notice that the time measured are of no real value, since there was nor warm up.
+ * Notice that the time measured are of no real value in terms of benchmarking
+ * the options, since there was no warm up.
  *
  */
 public class SafeAccessorServiceTest {
 
     public static void main(String[] args) throws InterruptedException {
-        
+
         SafeAccessorService accessor = new SafeAccessorService();
-        
+
         System.out.println("\n*** getting an instance - will not fail ***\n");
-        
+
         long time = ConcurrentExecutor.time(Executors.newFixedThreadPool(4, r -> {
             Thread t = Executors.defaultThreadFactory().newThread(r);
             t.setDaemon(true);
@@ -29,7 +30,7 @@ public class SafeAccessorServiceTest {
             System.out.println("done");
         });
         System.out.println(time);
-        
+
         System.out.println("\n*** randomly updating an instance - update may be rejected ***\n");
 
         time = ConcurrentExecutor.time(Executors.newFixedThreadPool(4, r -> {
@@ -45,9 +46,9 @@ public class SafeAccessorServiceTest {
             }
         });
         System.out.println(time);
-        
+
         System.out.println("\n*** updating an instance with some data - update may be rejected ***\n");
-        
+
         time = ConcurrentExecutor.time(Executors.newFixedThreadPool(4, r -> {
             Thread t = Executors.defaultThreadFactory().newThread(r);
             t.setDaemon(true);
@@ -61,9 +62,9 @@ public class SafeAccessorServiceTest {
             }
         });
         System.out.println(time);
-        
+
         System.out.println("\n*** updating an instance using a semaphore - update will not be rejected  ***\n");
-        
+
         Semaphore semaphore = new Semaphore(1);
         time = ConcurrentExecutor.time(Executors.newFixedThreadPool(4, r -> {
             Thread t = Executors.defaultThreadFactory().newThread(r);
