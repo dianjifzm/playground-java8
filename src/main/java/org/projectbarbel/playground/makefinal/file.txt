@@ -1,0 +1,27 @@
+Just as it is good practice to make all fields private unless they need greater visibility, it is good practice to make all fields final, unless they need to be mutable. Final fields have some advantages as opposed to non-final fields. Objects with only final fields are always thread-safe. Good reasons to think about the final keyword and its application to Java objects a bit further.  Here is a bean, that implements only final fields, which means it is strictly immutable:
+
+
+
+
+Fields of  FinalBean will immediately by visible to all threads. Threads will never see stale data when they refer to references pointing to  FinalBean. Even if you assign this object to a field not declared  volatile, there will be no visibility issue across multiple threads.  FinalBean is simply thread-safe.
+
+But what if you need to change the state of a concrete FinalBean instance once in a while?  You can do this by copying the original bean like so:
+
+
+
+
+This however isn't very elegant, right? Especially when the final object has - say - more then a dozen fields. You do not want to make such an effort, if you only want to change one field. It's possible to make the usage of  FinalBean easier using a template builder pattern, like in this example:
+
+
+
+
+FinalBean now has getters and copy methods. The copy methods (line 19 and 23) return a copy of FinalBean with a new value of the considered variable passed. The copy is created using the builder pattern. The builder also accepts a template as parameter passed to the  withTemplate() method. This template is used for "default values" on the new instance whenever no concrete value is passed for a certain field to the builder using the with-Methods. 
+
+Now, changing the FinalBean is much more intuative and quite easy, as you can see here:
+
+
+ 
+
+The FinalBean got more complicated by using the builder pattern, that's agreed. But using it should be much easier now. Notice, that you always receive new instances of FinalBean when you change it. This requires extra attention by the clients using  FinalBean. For instance, clients that operate with FinalBean may require extra synchronization if they perform compound actions. Only FinalBean  is thread-safe here because it is immutable.
+
+That's it ! Hope you liked this !  

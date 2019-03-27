@@ -16,11 +16,11 @@ public class FinalBean {
         this.someInt = someInt;
     }
     
-    public FinalBean setSomeString(String someString) {
+    public FinalBean copyWithSomeString(String someString) {
         return builder().withTemplate(this).withSomeString(someString).build();
     }
     
-    public FinalBean setSomeInt(int someInt) {
+    public FinalBean copyWithSomeInt(int someInt) {
         return builder().withTemplate(this).withSomeInt(someInt).build();
     }
     

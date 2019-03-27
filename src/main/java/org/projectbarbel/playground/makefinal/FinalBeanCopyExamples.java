@@ -1,15 +1,18 @@
 package org.projectbarbel.playground.makefinal;
 
+import org.apache.commons.lang3.Validate;
+
 public class FinalBeanCopyExamples {
 
     public static void main(String[] args) {
         FinalBeanRaw finalBeanRaw = new FinalBeanRaw("someData", 42);
-        @SuppressWarnings("unused")
         FinalBeanRaw finalBeanRawChanged = new FinalBeanRaw(finalBeanRaw.getSomeString(), 4711);
+        Validate.isTrue(finalBeanRawChanged.getSomeInt() == 4711 & finalBeanRawChanged.getSomeString().equals("someData"));
+        System.out.println("worked");
         
         FinalBean finalBean = new FinalBean("someData", 42);
-        @SuppressWarnings("unused")
-        FinalBean finalBeanChanged = finalBean.setSomeInt(4711);
-        
+        FinalBean finalBeanChanged = finalBean.copyWithSomeInt(4711);
+        Validate.isTrue(finalBeanChanged.getSomeInt() == 4711 & finalBeanChanged.getSomeString().equals("someData"));
+        System.out.println("worked");
     }
 }
