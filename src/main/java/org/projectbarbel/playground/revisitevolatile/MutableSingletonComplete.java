@@ -28,7 +28,7 @@ public class MutableSingletonComplete {
     public int getCounter() {
         return counter;
     }
-    public synchronized void incrementCounter(int counter) {
+    public synchronized void incrementCounter() {
         counter++;
     }
 }
