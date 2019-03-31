@@ -15,16 +15,17 @@ public class PersonUpdateRecoverLock {
         Lock lock = new ReentrantLock();
 
         System.out.println(String.format("Before: %s", person.toString()));
-        Person copy = null;
         lock.lock();
         try {
-            copy = new Person(person);
-            person.setStreet("23535 Michigan Ave");
-            person.setPostalcode("MI 48124");
-            Validate.validState(1 == 0);
-            person.setCity("Dearborn, USA");
-        } catch (Exception e) {
-            person = copy;
+            Person copy = new Person(person);
+            try {
+                person.setStreet("23535 Michigan Ave");
+                person.setPostalcode("MI 48124");
+                Validate.validState(1 == 0);
+                person.setCity("Dearborn, USA");
+            } catch (Exception e) {
+                person = copy;
+            }
         } finally {
             lock.unlock();
         }

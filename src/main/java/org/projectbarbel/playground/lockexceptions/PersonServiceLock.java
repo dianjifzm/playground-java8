@@ -8,10 +8,12 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javax.annotation.concurrent.ThreadSafe;
 
+import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.rits.cloning.Cloner;
 
 @ThreadSafe
 public class PersonServiceLock {
+    @GuardedBy("lock")
     private final Map<String, Person> persons;
     private final Cloner cloner = new Cloner();
     private final Lock lock = new ReentrantLock();
@@ -20,8 +22,13 @@ public class PersonServiceLock {
         this.persons = deepCopy(persons);
     }
 
-    public synchronized Map<String, Person> getLocations() {
-        return deepCopy(persons);
+    public Map<String, Person> getLocations() {
+        lock.lock();
+        try {
+            return deepCopy(persons);
+        } finally {
+            lock.unlock();
+        }
     }
 
     public Person updateAdress(String id, String street, String postalcode, String city) {
@@ -33,21 +40,26 @@ public class PersonServiceLock {
                 person.setStreet(street);
                 person.setPostalcode(postalcode);
                 person.setCity(city);
+                return new Person(person);
             } catch (Exception e) {
                 persons.put(copy.getId(), copy);
                 throw new IllegalStateException("update failed", e);
             }
-            return new Person(person);
         } finally {
             lock.unlock();
         }
     }
 
-    public synchronized Person getPerson(String id) {
-        Person person = persons.get(id);
-        return person == null ? null
-                : new Person(person.getId(), person.getFirstname(), person.getLastname(), person.getStreet(),
-                        person.getPostalcode(), person.getCity());
+    public Person getPerson(String id) {
+        lock.lock();
+        try {
+            Person person = persons.get(id);
+            return person == null ? null
+                    : new Person(person.getId(), person.getFirstname(), person.getLastname(), person.getStreet(),
+                            person.getPostalcode(), person.getCity());
+        } finally {
+            lock.unlock();
+        }
     }
 
     private static Map<String, Person> deepCopy(Map<String, Person> m) {
