@@ -32,7 +32,7 @@ public class PersonUpdateBroken {
         /**
          * The city was not updated -> the object is invalid
          */
-        Validate.validState(person.getCity().equals(originalCityValue));
+        Validate.isTrue(person.getCity().equals(originalCityValue));
 
     }
 }
