@@ -1,5 +1,6 @@
 package org.projectbarbel.playground.makefinal;
 
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -16,49 +17,19 @@ public class FinalBean {
         this.someInt = someInt;
     }
     
+    @Builder
+    public FinalBean(String someString, int someInt, FinalBean template) {
+        super();
+        this.someString = someString == null ? template.getSomeString() : someString;
+        this.someInt = someInt == 0 ? template.getSomeInt() : someInt;
+    }
+    
     public FinalBean copyWithSomeString(String someString) {
-        return builder().withTemplate(this).withSomeString(someString).build();
+        return builder().template(this).someString(someString).build();
     }
     
     public FinalBean copyWithSomeInt(int someInt) {
-        return builder().withTemplate(this).withSomeInt(someInt).build();
-    }
-    
-    private FinalBean(Builder builder) {
-        this.someString = builder.someString == null ? builder.template.getSomeString() : builder.someString;
-        this.someInt = builder.someInt == 0 ? builder.template.getSomeInt() : builder.someInt;
-    }
-    
-    public static Builder builder() {
-        return new Builder();
-    }
-    
-    public static final class Builder {
-        private String someString;
-        private int someInt;
-        private FinalBean template;
-
-        private Builder() {
-        }
-
-        public Builder withSomeString(String someString) {
-            this.someString = someString;
-            return this;
-        }
-
-        public Builder withTemplate(FinalBean template) {
-            this.template = template;
-            return this;
-        }
-        
-        public Builder withSomeInt(int someInt) {
-            this.someInt = someInt;
-            return this;
-        }
-
-        public FinalBean build() {
-            return new FinalBean(this);
-        }
+        return builder().template(this).someInt(someInt).build();
     }
     
 }
