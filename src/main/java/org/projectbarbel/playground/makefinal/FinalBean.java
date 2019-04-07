@@ -18,7 +18,7 @@ public class FinalBean {
     }
     
     @Builder
-    private FinalBean(String someString, int someInt, FinalBean template) {
+    public FinalBean(String someString, int someInt, FinalBean template) {
         super();
         this.someString = someString == null ? template.getSomeString() : someString;
         this.someInt = someInt == 0 ? template.getSomeInt() : someInt;

@@ -13,6 +13,8 @@ public class FinalBeanCopyExamples {
         FinalBean finalBean = new FinalBean("someData", 42);
         FinalBean finalBeanChanged = finalBean.copyWithSomeInt(4711);
         Validate.isTrue(finalBeanChanged.getSomeInt() == 4711 & finalBeanChanged.getSomeString().equals("someData"));
+        FinalBean finalBeanByBuilder = FinalBean.builder().template(finalBean).someInt(4711).build();
+        Validate.isTrue(finalBeanByBuilder.getSomeInt() == 4711 & finalBeanByBuilder.getSomeString().equals("someData"));
         System.out.println("worked");
     }
 }
